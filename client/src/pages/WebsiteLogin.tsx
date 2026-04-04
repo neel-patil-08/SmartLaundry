@@ -1,6 +1,5 @@
 import { useState, FormEvent } from "react";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/hooks/use-auth";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
@@ -11,34 +10,6 @@ const roleTabs = [
   { label: "Admin", value: "admin" },
 ];
 
-const quickAccessOptions = [
-  {
-    label: "Biometric",
-    icon: "/figmaAssets/icon.svg",
-    iconWidth: "w-[18.05px]",
-    iconHeight: "h-[19.96px]",
-    paddingX: "px-[36px]",
-  },
-  {
-    label: "EDU ID",
-    icon: "/figmaAssets/icon-1.svg",
-    iconWidth: "w-5",
-    iconHeight: "h-5",
-    paddingX: "px-[43px]",
-  },
-  {
-    label: "Sign Up",
-    icon: "/figmaAssets/icon-3.svg",
-    iconWidth: "w-[22px]",
-    iconHeight: "h-4",
-    paddingX: "px-[41px]",
-  },
-];
-
-const stats = [
-  { value: "98%", label: "FABRIC INTEGRITY RATE" },
-  { value: "12m", label: "AVG. CYCLE SPEED" },
-];
 
 export const WebsiteLogin = (): JSX.Element => {
   const [activeRole, setActiveRole] = useState("student");
@@ -188,32 +159,6 @@ export const WebsiteLogin = (): JSX.Element => {
             </form>
           </div>
 
-          <div className="pt-12 pb-0 px-0 flex flex-col items-start relative self-stretch w-full flex-[0_0_auto]">
-            <div className="gap-6 flex flex-col items-start relative self-stretch w-full flex-[0_0_auto]">
-              <div className="flex items-center gap-4 relative self-stretch w-full flex-[0_0_auto]">
-                <Separator className="flex-1 bg-[#c3c6d74c]" />
-                <span className="inline-flex items-center h-[15px] mt-[-1.00px] font-bold text-[#495f8499] text-[10px] tracking-[1.00px] leading-[15px] whitespace-nowrap relative [font-family:'Manrope',Helvetica]">
-                  QUICK ACCESS
-                </span>
-                <Separator className="flex-1 bg-[#c3c6d74c]" />
-              </div>
-              <div className="grid grid-cols-3 gap-3 w-full">
-                {quickAccessOptions.map((option) => (
-                  <button
-                    key={option.label}
-                    type="button"
-                    onClick={() => option.label === "Sign Up" && setMode("register")}
-                    className={`flex flex-col items-center gap-2 ${option.paddingX} py-3 bg-[#f5f4e8] rounded-[32px] hover:bg-[#ecebd9] transition-colors`}
-                  >
-                    <img className={`relative ${option.iconWidth} ${option.iconHeight}`} alt="Icon" src={option.icon} />
-                    <span className="flex items-center justify-center h-[15px] font-bold text-[#495f84] text-[10px] text-center tracking-[0] leading-[15px] whitespace-nowrap relative [font-family:'Manrope',Helvetica]">
-                      {option.label}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
         </div>
 
         <div className="relative row-[1_/_2] col-[6_/_13] w-full h-[807px] flex items-center justify-center p-12 bg-[#001b3d]">
@@ -238,20 +183,6 @@ export const WebsiteLogin = (): JSX.Element => {
                 <br />
                 lifestyle.
               </p>
-            </div>
-            <div className="grid grid-cols-2 gap-8 pt-6 pb-0 px-0 w-full">
-              {stats.map((stat) => (
-                <div key={stat.label} className="relative w-full h-fit flex flex-col items-start gap-[3.5px]">
-                  <div className="flex flex-col items-start relative self-stretch w-full flex-[0_0_auto]">
-                    <span className="relative flex items-center self-stretch mt-[-1.00px] [font-family:'Manrope',Helvetica] font-extrabold text-[#004ac6] text-3xl tracking-[0] leading-9">
-                      {stat.value}
-                    </span>
-                  </div>
-                  <span className="flex items-center h-4 font-bold text-[#fbfaee80] text-xs tracking-[1.20px] leading-4 whitespace-nowrap relative [font-family:'Manrope',Helvetica]">
-                    {stat.label}
-                  </span>
-                </div>
-              ))}
             </div>
           </div>
         </div>

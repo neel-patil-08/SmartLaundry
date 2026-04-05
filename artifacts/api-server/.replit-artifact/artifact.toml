@@ -10,7 +10,7 @@ name = "LaundroLink"
 paths = ["/"]
 
 [services.development]
-run = "pnpm run dev"
+run = "bash -c 'cd /home/runner/workspace && pnpm run dev'"
 
 [services.production]
 

@@ -55,10 +55,11 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       resave: false,
       saveUninitialized: false,
       cookie: {
-        secure: process.env.NODE_ENV === "production",
-        httpOnly: true,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-      },
+  secure: false, // Changed from process.env.NODE_ENV === "production"
+  sameSite: "lax", // Add this to help with cross-site requests
+  httpOnly: true,
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+},,
     })
   );
 

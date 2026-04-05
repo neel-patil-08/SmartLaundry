@@ -30,27 +30,39 @@ export default function LostItem() {
   });
 
   const reportLost = useMutation({
-    mutationFn: async () => {
-  const res = await fetch("/api/lost-items", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      clothingType: type,
-      color,
-      description,
-    }),
-    credentials: "include", // This sends your login "pass" to the backend
-  });
+  mutationFn: async () => {
+    // We use window.location.origin to ensure it hits the right base URL
+    const res = await fetch("/api/lost-items", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        clothingType: type,
+        color,
+        description,
+      }),
+      // THIS IS THE CRITICAL LINE
+      credentials: "include", 
+    });
 
-  if (!res.ok) {
-    const errorData = await res.json().catch(() => ({}));
-    throw new Error(errorData.message || "Failed to report item");
-  }
-  
-  return res.json();
-},
-  });
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+      throw new Error(errorData.message || "Unauthorized or Server Error");
+    }
 
+    return res.json();
+  },
+  onSuccess: () => {
+    // This forces the list to refresh from the server
+    qc.invalidateQueries({ queryKey: ["/api/lost-items"] });
+    toast({ title: "Success!", description: "Item reported." });
+    setType(""); setColor(""); setDescription("");
+  },
+  onError: (err: Error) => {
+    toast({ title: "Failed", description: err.message, variant: "destructive" });
+  },
+});
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!type || !color || !description) {

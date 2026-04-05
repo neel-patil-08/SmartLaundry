@@ -31,22 +31,24 @@ export default function LostItem() {
 
   const reportLost = useMutation({
     mutationFn: async () => {
-      const res = await apiRequest("POST", "/api/lost-items", {
-        clothingType: type,
-        color,
-        description,
-      });
-      return res.json();
-    },
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["/api/lost-items"] });
-      qc.invalidateQueries({ queryKey: ["/api/notifications"] });
-      toast({ title: "Lost item reported!", description: "We'll notify you if a match is found." });
-      setType(""); setColor(""); setDescription("");
-    },
-    onError: (err: Error) => {
-      toast({ title: "Failed to report", description: err.message, variant: "destructive" });
-    },
+  const res = await fetch("/api/lost-items", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      clothingType: type,
+      color,
+      description,
+    }),
+    credentials: "include", // This sends your login "pass" to the backend
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.message || "Failed to report item");
+  }
+  
+  return res.json();
+},
   });
 
   const handleSubmit = (e: React.FormEvent) => {

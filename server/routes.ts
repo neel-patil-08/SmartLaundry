@@ -54,12 +54,14 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
       secret: process.env.SESSION_SECRET || "washtrack-secret-change-in-production",
       resave: false,
       saveUninitialized: false,
-      cookie: {
-  secure: false, // Changed from process.env.NODE_ENV === "production"
-  sameSite: "lax", // Add this to help with cross-site requests
+      ccookie: {
+  // Since you are in production, Render's HTTPS will work 
+  // ONLY if you have app.set("trust proxy", 1) in index.ts
+  secure: process.env.NODE_ENV === "production", 
   httpOnly: true,
   maxAge: 7 * 24 * 60 * 60 * 1000,
-},,
+  sameSite: "lax"
+},
     })
   );
 
